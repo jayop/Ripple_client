@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import URL from '../../../config/personal/jay/url.js'
+import { Route, Redirect } from 'react-router'
 
 class Jay extends Component {
   constructor(props) {
@@ -19,8 +20,12 @@ class Jay extends Component {
   render() {
     return (
       <div className="jay">
+        <div>{this.props.currentUserStore.username ? 
+        null 
+          // <Redirect to={URL.RESUME} />
+          : <Redirect to="/main" />}</div>
         This is Jay Page
-        {/* <a href={URL.RESUME}>Resume</a> */}
+        <a href={URL.RESUME}>Resume</a>
         <Button bsStyle="warning" onClick={this.handleRetuen}>RETURN</Button >
       </div>
     )
@@ -29,6 +34,7 @@ class Jay extends Component {
 
 function mapStateToProps(state) {
   return {
+    currentUserStore: state.currentUserStore,
     browserHistory: state.browserHistory
   }
 }
