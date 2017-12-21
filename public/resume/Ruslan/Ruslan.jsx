@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import URL from '../../../config/personal/ruslan/url.js'
+import { Route, Redirect } from 'react-router'
 
 class Ruslan extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class Ruslan extends Component {
   render() {
     return (
       <div className="Ruslan">
+        <div>{this.props.currentUserStore.username ? null : <Redirect to="/main" />}</div>
         This is Ruslan Page
         {/* <a href={URL.RESUME}>Resume</a> */}
         <Button bsStyle="warning" onClick={this.handleRetuen}>RETURN</Button >
@@ -29,6 +31,7 @@ class Ruslan extends Component {
 
 function mapStateToProps(state) {
   return {
+    currentUserStore: state.currentUserStore,
     browserHistory: state.browserHistory
   }
 }
