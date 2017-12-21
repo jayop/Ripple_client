@@ -114,7 +114,7 @@ class GroupChatBox extends Component {
         {
           context.props.currentGroupChatStore.messages.length>0 ? 
           context.props.currentGroupChatStore.messages.map((message, index) => {
-              return <li id="chat_list" key={index}><span id="roomuser">{message.from}:</span> <span id="roommessage">{message.text}</span> <span id="timestamp">{ Functions.timestampToDate(message.timestamp) }</span> </li>
+              return <p id="chat_list" key={index}><span id="roomuser">{message.from}:</span> <span id="roommessage">{message.text}</span> <span id="timestamp">{ Functions.timestampToDate(message.timestamp) }</span> </p>
             }) 
             : "No Message Yet"
         }
