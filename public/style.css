@@ -10,7 +10,7 @@ background-size: cover;
 padding: 10px;
 /* border: solid rgb(32, 183, 221); */
 /* text-align: center; */
-font-family: 'Indie Flower', cursive;
+font-family: sans-serif;
 }
 #common{
     color: rgb(36, 221, 36);
@@ -76,9 +76,10 @@ font-family: 'Indie Flower', cursive;
     float: right;
     font-family: Geneva;
     color: rgb(48, 48, 57);
+    font-size: 50%;
 }
 #messagebrah{
-    font-family: Times;
+    font-family: sans-serif;
     color: rgb(0, 0, 0);
     font-size: 125%;
 }
@@ -208,11 +209,11 @@ Button:active{
     /* background: black; */
     font: bold;
     font-size: 115%;
-    font-family: serif;
+    font-family: sans-serif;
     border-radius: 3px;
 }
 #roommessage{
-    font-family: Times;
+    font-family: sans-serif;
     /* color: rgb(72, 214, 24); */
     /* color:#317bd1; */
     font-size: 125%;
@@ -224,6 +225,7 @@ Button:active{
     float: right;
     font-family: Geneva;
     color: rgb(48, 48, 57);
+    font-size: 50%;
 }
 #roomsComponent{
     background-color: rgb(34, 33, 33);
