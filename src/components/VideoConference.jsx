@@ -25,7 +25,7 @@ class Video extends Component {
   constructor(props) {
     super(props)
     this.handleClose = this.handleClose.bind(this)
-    this.handleCallRequest = this.handleCallRequest.bind(this)
+    this.handleOpenVideoConference = this.handleOpenVideoConference.bind(this)
     this.handleFlagFromSocket = this.handleFlagFromSocket.bind(this)
     this.handleVideoRequest = this.handleVideoRequest.bind(this)
     this.state = {
@@ -36,14 +36,14 @@ class Video extends Component {
   }
 
   componentDidMount() {
-    console.log('inside video.jsx', this.props.currentChatStore.messages)
+    console.log('inside video.jsx', this.props.currentGroupChatStore.messages)
     // this.socket = io(URL.SOCKET_SERVER_URL);
     // this.socket.on('message', message => {
     //   this.setState({ messages: [message, ...this.state.messages] },
     //     () => { console.log('this.setstate by socket io', this.state.messages) })
     // })
-    this.props.currentChatStore.currentUser
-    this.props.currentChatStore.currentFriend
+    this.props.currentGroupChatStore.currentUser
+    this.props.currentGroupChatStore.currentRoom.roomname
     this.handleFlagFromSocket()
     // this.connection = new RTCMultiConnection();
     //draggable elements
@@ -455,7 +455,7 @@ class Video extends Component {
     document.getElementById('open-room').onclick = function () {
       //disableInputButtons();
       // let id = document.getElementById('room-id').value;
-      let id = context.props.currentChatStore.directRoomId;
+      let id = context.props.currentGroupChatStore.directRoomId;
       console.log('room id is ', id)
       showRoomURL(id)
       connection.open(id, function () {
@@ -466,7 +466,7 @@ class Video extends Component {
 
     document.getElementById('join-room').onclick = function () {
       //disableInputButtons();
-      let id = context.props.currentChatStore.directRoomId;
+      let id = context.props.currentGroupChatStore.directRoomId;
       connection.join(id);
       // connection.join(document.getElementById('room-id').value);
     };
@@ -576,76 +576,62 @@ class Video extends Component {
     /*
     obj = {
       requestee:
-      requested:
+      requestedRoom:
       hashKey:
       result:
     }
     */
 
-    this.socket.on('videoRequest', videoRequest => {
-      console.log('videoRequest got from socket:', videoRequest)
+    this.socket.on('startVideoConference', startVideoConference => {
+      console.log('startVideoConference got from socket:', startVideoConference)
 
-      if (videoRequest.requested === this.props.currentUserStore.username) {
-        alert('you got a video request from ' + videoRequest.requestee)
-        this.setState({ showCalling: true, callingFrom: videoRequest.requestee, hashKey: videoRequest.hashKey})
+      if (startVideoConference.requestedRoom === this.props.currentGroupChatStore.currentRoom.roomname) {
+        alert('video conference call started by ' + startVideoConference.requestee)
+        this.setState({ showCalling: true, hashKey: startVideoConference.hashKey})
       }
     })
 
 
-    this.socket.on('videoReqResult', videoReqResult => {
-      console.log('videoReqResult from socket:', videoReqResult)
+    // this.socket.on('videoReqResult', videoReqResult => {
+    //   console.log('videoReqResult from socket:', videoReqResult)
 
-      if (videoReqResult.requestee === this.props.currentUserStore.username) {
-        if (videoReqResult.result) {
-          console.log('you and ' + videoReqResult.requested + ' are now on video chat')
-          this.connection.join(videoReqResult.hashKey)
-          this.setState({ showCalling: false, callingFrom: null })
-        } else {
-          console.log(videoReqResult.requested + ' declined video chat')
-          this.setState({ showCalling: false, callingFrom: null })
-        }
-      }
-    })
+    //   if (videoReqResult.requestee === this.props.currentUserStore.username) {
+    //     if (videoReqResult.result) {
+    //       console.log('you and ' + videoReqResult.requestedRoom + ' are now on video chat')
+    //       this.connection.join(videoReqResult.hashKey)
+    //       this.setState({ showCalling: false, callingFrom: null })
+    //     } else {
+    //       console.log(videoReqResult.requestedRoom + ' declined video chat')
+    //       this.setState({ showCalling: false, callingFrom: null })
+    //     }
+    //   }
+    // })
+
+
   }
 
-  handleCallRequest() {
+  async handleOpenVideoConference() {
     let date = Date.now();
-    let videoRequest = {
-      requestee: this.props.currentChatStore.currentUser,
-      requested: this.props.currentChatStore.currentFriend,
-      hashKey: date,
-      result: null
+    await this.connection.open(date, function () {
+      console.log('in connection.open callback')
+      showRoomURL(connection.sessionid);
+    });
+    let startVideoConference = {
+      requestee: this.props.currentGroupChatStore.currentUser,
+      requestedRoom: this.props.currentGroupChatStore.currentRoom.roomname,
+      hashKey: date
     }
-    this.socket.emit('videoRequest', videoRequest)
-    console.log('videoRequest emitted thru socket', videoRequest)
+    this.socket.emit('startVideoConference', startVideoConference)
+    console.log('startVideoConference emitted thru socket', startVideoConference)
   }
+
 
   async handleVideoRequest(result) {
     // alert(result)
     if (result) {
-      await this.connection.open(this.state.hashKey, function () {
-        console.log('in connection.open callback')
-        showRoomURL(connection.sessionid);
-      });
-
-      let videoReqResult = {
-        requestee: this.props.currentChatStore.currentFriend,
-        requested: this.props.currentChatStore.currentUser,
-        hashKey: this.state.hashKey,
-        result: result
-      }
-      this.socket.emit('videoReqResult', videoReqResult)
-      console.log('videoReqResult emitted thru socket', videoReqResult)
-
+      this.connection.join(this.state.hashKey)
     }
-    let videoReqResult = {
-      requestee: this.props.currentChatStore.currentUser,
-      requested: this.props.currentChatStore.currentFriend,
-      hashKey: this.state.hashKey,
-      result: result
-    }
-    this.socket.emit('videoReqResult', videoReqResult)
-    console.log('videoReqResult emitted thru socket', videoReqResult)
+    this.setState({ showCalling: false })
   }
 
   handleScriptError() {
@@ -669,11 +655,11 @@ class Video extends Component {
         <section className="make-center">
             {/* <input type="text" id="room-id" placeholder="abcdef" /> */}
           <div>Current User: {this.props.currentUserStore.username} </div>
-          <div> Current Friend: { this.props.currentChatStore.currentFriend } </div>
-          <div> directRoomId: {this.props.currentChatStore.directRoomId} </div>
-            <Button bsStyle="warning" onClick={this.handleCallRequest}>MAKE VIDEO CALL</Button >
-          <button id="open-room">Open Room</button>
-          <button id="join-room">Join Room</button>
+          <div> Current Room: { this.props.currentGroupChatStore.currentRoom.roomname } </div>
+          <div> directRoomId: {this.props.currentGroupChatStore.directRoomId} </div>
+            <Button bsStyle="warning" onClick={this.handleOpenVideoConference}>MAKE VIDEO CALL</Button >
+          {/* <button id="open-room">Open Room</button>
+          <button id="join-room">Join Room</button> */}
             <Button bsStyle="warning" onClick={this.handleClose}>CLOSE VIDEO</Button >
           <div>{this.state.showCalling ?
               <div>
@@ -694,10 +680,10 @@ class Video extends Component {
 }
 
 Video.propTypes = {
-  currentChatStore: PropTypes.shape({
+  currentGroupChatStore: PropTypes.shape({
    messages: PropTypes.array.isRequired,
    currentUser: PropTypes.string.isRequired,
-   currentFriend: PropTypes.string.isRequired
+   currentRoom: PropTypes.string.isRequired
   }),
   currentUserStore: PropTypes.shape({
     username: PropTypes.string.isRequired
@@ -709,7 +695,7 @@ Video.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    currentChatStore: state.currentChatStore,
+    currentGroupChatStore: state.currentGroupChatStore,
     currentUserStore: state.currentUserStore,
     currentChatView: state.currentChatView,
     browserHistory: state.browserHistory
