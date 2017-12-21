@@ -285,8 +285,8 @@ Button:active{
 }
 #files{
     /* padding: 10px; */
-    margin: 15px;
-    border: solid brown;
+    /* margin: 15px; */
+    /* border: solid brown; */
 }
 #dropzone{
 background-color:	rgb(255, 255, 255);
