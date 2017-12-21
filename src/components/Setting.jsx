@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap'
 import Header from '../containers/header.jsx'
 import URL from '../../config/url.js'
+import { Route, Redirect } from 'react-router'
 
 class Setting extends Component {
   constructor(props) {
@@ -69,6 +70,7 @@ class Setting extends Component {
   render() {
     return (
       <div className="setting" id="setting">
+        <div>{this.props.currentUserStore.username ? null : <Redirect to="/main" />}</div>
         <div><Header /></div>
         <img src={this.props.currentUserStore.icon} width="100" height="100" />
         <FormGroup>
