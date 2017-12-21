@@ -6,7 +6,7 @@ import { FormGroup } from 'react-bootstrap'
 import axios from 'axios'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import PrivateChatBox from '../containers/private_chatbox.jsx'
+import GroupChatBox from '../containers/group_chat/group_chatbox.jsx'
 import { setPrivateChat } from '../actions/setPrivateChat.jsx';
 import { setCurrentChatView } from '../actions/setCurrentChatView.jsx';
 import { Button } from 'react-bootstrap'
@@ -17,7 +17,7 @@ import 'webrtc-adapter';
 import PropTypes from 'prop-types'
 import Script from 'react-load-script'
 
-
+import { Route, Redirect } from 'react-router'
 
 import Dropzone from '../containers/dropzone_container.jsx'
 
@@ -646,6 +646,7 @@ class Video extends Component {
     let context = this
     return (
       <div id="dropzone">
+        <div>{this.props.currentUserStore.username ? null : <Redirect to="/main" />}</div>
         <div>
         <Script
           url="https://cdn.webrtc-experiment.com/RTCMultiConnection.js"
@@ -657,22 +658,22 @@ class Video extends Component {
           <div>Current User: {this.props.currentUserStore.username} </div>
           <div> Current Room: { this.props.currentGroupChatStore.currentRoom.roomname } </div>
           <div> directRoomId: {this.props.currentGroupChatStore.directRoomId} </div>
-            <Button bsStyle="warning" onClick={this.handleOpenVideoConference}>MAKE VIDEO CALL</Button >
-          {/* <button id="open-room">Open Room</button>
-          <button id="join-room">Join Room</button> */}
-            <Button bsStyle="warning" onClick={this.handleClose}>CLOSE VIDEO</Button >
+            <Button bsStyle="warning" onClick={this.handleOpenVideoConference}>START VIDEO CONFERENCE</Button >
+            <Button bsStyle="warning" onClick={this.handleClose}>LEAVE ROOM</Button >
           <div>{this.state.showCalling ?
               <div>
               Calling from: {this.state.callingFrom} 
-              <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(true)}>ACCEPT</Button >
-              <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(false)}>DECLINE</Button ></div>
+              <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(true)}>JOIN</Button >
+              <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(false)}>DISMISS</Button ></div>
             : null}</div>
+            <div><button id="open-room"></button>
+              <button id="join-room"></button></div>
           <div id="room-urls"></div>
 
           <div id="videos-container"></div>
         </section>
       </div>  
-          <div><PrivateChatBox /></div>
+          <div><GroupChatBox /></div>
         <div id="dropzone"><Dropzone /></div>
       </div>
     )

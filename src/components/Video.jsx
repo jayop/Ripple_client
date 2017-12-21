@@ -17,7 +17,7 @@ import 'webrtc-adapter';
 import PropTypes from 'prop-types'
 import Script from 'react-load-script'
 
-
+import { Route, Redirect } from 'react-router'
 
 import Dropzone from '../containers/dropzone_container.jsx'
 
@@ -36,6 +36,7 @@ class Video extends Component {
   }
 
   componentDidMount() {
+
     console.log('inside video.jsx', this.props.currentChatStore.messages)
     // this.socket = io(URL.SOCKET_SERVER_URL);
     // this.socket.on('message', message => {
@@ -656,6 +657,7 @@ class Video extends Component {
     let context = this
     return (
       <div id="dropzone">
+        <div>{this.props.currentUserStore.username ? null : <Redirect to="/main" />}</div>
         <div>
         <Script
           url="https://cdn.webrtc-experiment.com/RTCMultiConnection.js"
@@ -668,8 +670,6 @@ class Video extends Component {
           <div> Current Friend: { this.props.currentChatStore.currentFriend } </div>
           <div> directRoomId: {this.props.currentChatStore.directRoomId} </div>
             <Button bsStyle="warning" onClick={this.handleCallRequest}>MAKE VIDEO CALL</Button >
-          <button id="open-room">Dont Press</button>
-          <button id="join-room">Join Room</button>
             <Button bsStyle="warning" onClick={this.handleClose}>CLOSE VIDEO</Button >
           <div>{this.state.showCalling ?
               <div>
@@ -678,6 +678,8 @@ class Video extends Component {
               <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(true)}>ACCEPT</Button >
               <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(false)}>DECLINE</Button ></div>
             : null}</div>
+            <div><button id="open-room"></button>
+              <button id="join-room"></button></div>
           <div id="room-urls"></div>
 
           <div id="videos-container"></div>
