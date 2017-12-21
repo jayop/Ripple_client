@@ -52,9 +52,6 @@ class Group extends Component {
         {/* <div><h2>Group Chat</h2></div> */}
         {/* <button id="videoChatButton" onClick={this.handleVideoChat}>Video Chat</button> */}
         <div id="videoChatButton">
-        <button><Link id="linkstyle" to="/video">VideoChat</Link> </button>
-        </div>
-        <div id="videoChatButton">
           <button><Link id="linkstyle" to="/videoConference">Video Conference</Link> </button>
         </div>
         
