@@ -628,23 +628,19 @@ class Video extends Component {
         showRoomURL(connection.sessionid);
       });
 
-      let videoReqResult = {
-        requestee: this.props.currentChatStore.currentFriend,
-        requested: this.props.currentChatStore.currentUser,
-        hashKey: this.state.hashKey,
-        result: result
-      }
-      this.socket.emit('videoReqResult', videoReqResult)
-      console.log('videoReqResult emitted thru socket', videoReqResult)
+
+      // this.socket.emit('videoReqResult', videoReqResult)
+      // console.log('videoReqResult emitted thru socket', videoReqResult)
 
     }
     let videoReqResult = {
-      requestee: this.props.currentChatStore.currentUser,
-      requested: this.props.currentChatStore.currentFriend,
+      requestee: this.props.currentChatStore.currentFriend,
+      requested: this.props.currentChatStore.currentUser,
       hashKey: this.state.hashKey,
       result: result
     }
     this.socket.emit('videoReqResult', videoReqResult)
+    this.setState({ showCalling: false, callingFrom: null })
     console.log('videoReqResult emitted thru socket', videoReqResult)
   }
 
@@ -672,11 +668,12 @@ class Video extends Component {
           <div> Current Friend: { this.props.currentChatStore.currentFriend } </div>
           <div> directRoomId: {this.props.currentChatStore.directRoomId} </div>
             <Button bsStyle="warning" onClick={this.handleCallRequest}>MAKE VIDEO CALL</Button >
-          <button id="open-room">Open Room</button>
+          <button id="open-room">Dont Press</button>
           <button id="join-room">Join Room</button>
             <Button bsStyle="warning" onClick={this.handleClose}>CLOSE VIDEO</Button >
           <div>{this.state.showCalling ?
               <div>
+                <img src="https://cdn.dribbble.com/users/49803/screenshots/1699648/calling.gif" width="40%" height="40%"/>
               Calling from: {this.state.callingFrom} 
               <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(true)}>ACCEPT</Button >
               <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(false)}>DECLINE</Button ></div>

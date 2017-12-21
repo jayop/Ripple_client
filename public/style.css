@@ -293,6 +293,12 @@ font-style: italic;
     
 
 }
+#open-room{
+    visibility: hidden;
+}
+#join-room{
+    visibility: hidden;
+}
 #finally{
     height: 300px;
     overflow: scroll;
