@@ -2,7 +2,9 @@
 /* background-image: url(https://i.pinimg.com/originals/65/c0/c6/65c0c6dd2fec6d01dd5934789f8a4129.gif); */
 background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/rJI8ZWzzio4bewvs/rows-of-black-and-white-particles-slowly-ripple-and-wave-against-a-black-background-looping-motion-background_hagg3pbg__F0013.png);
 /* background-image: url(https://i.pinimg.com/originals/fa/c8/e2/fac8e2092454c87a0b82bfa75a315875.jpg); */
+/* background-image: url(https://ak9.picdn.net/shutterstock/videos/17149459/thumb/1.jpg); */
 background-color: rgb(31, 29, 29);
+
 height: 100vh;
 background-size: cover;
 padding: 10px;
@@ -25,6 +27,8 @@ font-family: 'Indie Flower', cursive;
 #chat_list{
     background-color: rgb(255, 255, 255);
     margin: 10px;
+    padding:5px;
+    border-radius: 3px;
     /* padding: 10px; */
 }
 #root{
@@ -128,8 +132,16 @@ height: 100vh;
     border-color:  rgb(136, 128, 128);
     text-align: center;
 }
+
+#vidbutton{
+    display: block;
+} 
 #fwendentry:hover{
     background-color: rgb(72, 214, 24);
+}
+#fwendentry:active{
+    border-color: red;
+    background-color: black;
 }
 Button:hover{
     background-color: rgb(72, 214, 24);
@@ -155,6 +167,7 @@ Button:active{
     /* overflow-y: scroll; */
     text-align: left;
     background-color: rgb(29, 29, 29);
+    opacity: 0.75;
     /* border: solid rgb(46, 7, 164); */
 }
 #private_chat{
@@ -167,7 +180,8 @@ Button:active{
     #private_chatt{
         padding: 15px;
         margin: 10px;
-        background-color: black;
+        background-color:  rgb(29, 29, 29);
+        opacity: 0.75;
         /* border: solid rgb(59, 21, 198); */
         float: right;
         width: 45%;
@@ -190,14 +204,21 @@ Button:active{
 }
 #roomuser{
     color: rgb(98, 37, 172);
+    /* color: rgb(72, 214, 24); */
+    /* background: black; */
     font: bold;
     font-size: 115%;
     font-family: serif;
+    border-radius: 3px;
 }
 #roommessage{
     font-family: Times;
-    color: rgb(0, 0, 0);
+    /* color: rgb(72, 214, 24); */
+    /* color:#317bd1; */
     font-size: 125%;
+    /* background-color: black; */
+    border-radius: 3px;
+    /* font-family: gray; */
 }
 #timestamp{
     float: right;
@@ -206,6 +227,7 @@ Button:active{
 }
 #roomsComponent{
     background-color: rgb(34, 33, 33);
+    opacity: 0.75;
     padding: 15px;
     margin: 10px;
     text-align: left;
@@ -224,7 +246,8 @@ Button:active{
     float: right;
     width: 45%;
     height: 500px;
-    background: black;
+    background:  rgb(29, 29, 29);
+    opacity: 0.75;
     /* border: solid rgb(46, 19, 177); */
     text-align: center;
     overflow-y: scroll;
@@ -251,10 +274,15 @@ Button:active{
     
 }
 #videoChatButton{
-    padding: 5px;
+    /* padding: 5px; */
     float: left;
+    margin: 10px;
+    /* border: solid darkgray; */
+    
 }
-
+#closeChatButton{
+    margin: 10px;
+}
 #files{
     /* padding: 10px; */
     margin: 15px;
@@ -456,7 +484,7 @@ font-style: italic;
     padding:6px 15px;
 
   }
-  
+
   button:hover {
     background-color:#78eb25;
   }
@@ -464,6 +492,7 @@ font-style: italic;
     position:relative;
     top:1px;
     background-color: black;
+    border-color: red;
   }
   
   button[disabled], input[disabled] {
@@ -475,7 +504,8 @@ font-style: italic;
     cursor: not-allowed!important;
   }
   Link{
-      background-color: pink;
+      background-color: rgb(0, 0, 0);
+      border: solid darkgrey;
   }
   .menu-explorer {
       color: transparent!important;
@@ -770,6 +800,14 @@ background-color:	rgb(159, 7, 254);
  
 }
 
-
-
+div{
+    border-radius:20px;
+}
+::-webkit-scrollbar{
+    width: 0px
+}
+::-webkit-scrollbar-track-piece{
+    background-color: transparent
+}
+    
 
