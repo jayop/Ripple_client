@@ -21,13 +21,14 @@ import { Route, Redirect } from 'react-router'
 
 import Dropzone from '../containers/dropzone_container.jsx'
 
-class Video extends Component {
+class VideoConference extends Component {
   constructor(props) {
     super(props)
     this.handleClose = this.handleClose.bind(this)
     this.handleOpenVideoConference = this.handleOpenVideoConference.bind(this)
     this.handleFlagFromSocket = this.handleFlagFromSocket.bind(this)
     this.handleVideoRequest = this.handleVideoRequest.bind(this)
+    this.handleCloseAll = this.handleCloseAll.bind(this)
     this.state = {
       showCalling: false,
       callingFrom: null,
@@ -35,15 +36,19 @@ class Video extends Component {
     }
   }
 
+  componentWillMount() {
+    
+  }
+
   componentDidMount() {
-    console.log('inside video.jsx', this.props.currentGroupChatStore.messages)
+    // console.log('inside video.jsx', this.props.currentGroupChatStore.messages)
     // this.socket = io(URL.SOCKET_SERVER_URL);
     // this.socket.on('message', message => {
     //   this.setState({ messages: [message, ...this.state.messages] },
     //     () => { console.log('this.setstate by socket io', this.state.messages) })
     // })
-    this.props.currentGroupChatStore.currentUser
-    this.props.currentGroupChatStore.currentRoom.roomname
+    // this.props.currentGroupChatStore.currentUser
+    // this.props.currentGroupChatStore.currentRoom.roomname
     this.handleFlagFromSocket()
     // this.connection = new RTCMultiConnection();
     //draggable elements
@@ -582,6 +587,14 @@ class Video extends Component {
     }
     */
 
+    this.socket.on('closeVideoAll', closeVideoAll => {
+      console.log('closeVideoAll got from socket:', closeVideoAll)
+
+      if (startVideoConference.requestedRoom === this.props.currentGroupChatStore.currentRoom.roomname) {
+        window.location.reload();
+      }
+    })
+
     this.socket.on('startVideoConference', startVideoConference => {
       console.log('startVideoConference got from socket:', startVideoConference)
 
@@ -640,13 +653,24 @@ class Video extends Component {
 
   handleClose() {
     this.props.browserHistory.history.push('/main')
+    // window.location.reload();
   }
 
+  handleCloseAll() {
+    let closeVideoAll = {
+      requestee: this.props.currentUserStore.username,
+      requestedRoom: this.props.currentGroupChatStore.currentRoom.roomname,
+      hashKey: this.state.hashKey
+    }
+    this.socket.emit('closeVideoAll', closeVideoAll)
+    window.location.reload();
+  }
+  
   render() {
     let context = this
     return (
       <div id="dropzone">
-        <div>{this.props.currentUserStore.username ? null : <Redirect to="/main" />}</div>
+        <div>{this.props.currentGroupChatStore.currentRoom.roomname ? null : <Redirect to="/main" />}</div>
         <div>
         <Script
           url="https://cdn.webrtc-experiment.com/RTCMultiConnection.js"
@@ -657,9 +681,10 @@ class Video extends Component {
             {/* <input type="text" id="room-id" placeholder="abcdef" /> */}
           <div>Current User: {this.props.currentUserStore.username} </div>
           <div> Current Room: { this.props.currentGroupChatStore.currentRoom.roomname } </div>
-          <div> directRoomId: {this.props.currentGroupChatStore.directRoomId} </div>
+          <div> RoomId: {this.props.currentGroupChatStore.RoomId} </div>
             <Button bsStyle="warning" onClick={this.handleOpenVideoConference}>START VIDEO CONFERENCE</Button >
             <Button bsStyle="warning" onClick={this.handleClose}>LEAVE ROOM</Button >
+            {/* <Button bsStyle="warning" onClick={this.handleCloseAll}>CLOSE ALL VIDEOS</Button > */}
           <div>{this.state.showCalling ?
               <div>
               Calling from: {this.state.callingFrom} 
@@ -680,20 +705,6 @@ class Video extends Component {
   }
 }
 
-Video.propTypes = {
-  currentGroupChatStore: PropTypes.shape({
-   messages: PropTypes.array.isRequired,
-   currentUser: PropTypes.string.isRequired,
-   currentRoom: PropTypes.string.isRequired
-  }),
-  currentUserStore: PropTypes.shape({
-    username: PropTypes.string.isRequired
-  }),
-  currentChatView: PropTypes.number.isRequired
-
-};
-
-
 function mapStateToProps(state) {
   return {
     currentGroupChatStore: state.currentGroupChatStore,
@@ -712,4 +723,4 @@ function mapStateToProps(state) {
 //     }, dispatch)
 // }
 
-export default connect(mapStateToProps)(Video);
+export default connect(mapStateToProps)(VideoConference);
