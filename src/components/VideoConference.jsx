@@ -41,6 +41,10 @@ class VideoConference extends Component {
   }
 
   componentDidMount() {
+    // if( this.props.currentGroupChatStore.currentRoom.roomname === null ) {
+    //   this.props.browserHistory.history.push('/main')
+    //   window.location.reload();
+    // }
     // console.log('inside video.jsx', this.props.currentGroupChatStore.messages)
     // this.socket = io(URL.SOCKET_SERVER_URL);
     // this.socket.on('message', message => {
@@ -590,7 +594,7 @@ class VideoConference extends Component {
     this.socket.on('closeVideoAll', closeVideoAll => {
       console.log('closeVideoAll got from socket:', closeVideoAll)
 
-      if (startVideoConference.requestedRoom === this.props.currentGroupChatStore.currentRoom.roomname) {
+      if (closeVideoAll.requestedRoom.roomID === this.props.currentGroupChatStore.currentRoom.roomID) {
         window.location.reload();
       }
     })
@@ -598,7 +602,7 @@ class VideoConference extends Component {
     this.socket.on('startVideoConference', startVideoConference => {
       console.log('startVideoConference got from socket:', startVideoConference)
 
-      if (startVideoConference.requestedRoom === this.props.currentGroupChatStore.currentRoom.roomname) {
+      if (startVideoConference.requestedRoom.roomID === this.props.currentGroupChatStore.currentRoom.roomID) {
         alert('video conference call started by ' + startVideoConference.requestee)
         this.setState({ showCalling: true, hashKey: startVideoConference.hashKey})
       }
@@ -631,7 +635,7 @@ class VideoConference extends Component {
     });
     let startVideoConference = {
       requestee: this.props.currentGroupChatStore.currentUser,
-      requestedRoom: this.props.currentGroupChatStore.currentRoom.roomname,
+      requestedRoom: this.props.currentGroupChatStore.currentRoom,
       hashKey: date
     }
     this.socket.emit('startVideoConference', startVideoConference)
@@ -652,14 +656,13 @@ class VideoConference extends Component {
   }
 
   handleClose() {
-    this.props.browserHistory.history.push('/main')
-    // window.location.reload();
+    window.location.reload();
   }
 
   handleCloseAll() {
     let closeVideoAll = {
       requestee: this.props.currentUserStore.username,
-      requestedRoom: this.props.currentGroupChatStore.currentRoom.roomname,
+      requestedRoom: this.props.currentGroupChatStore.currentRoom,
       hashKey: this.state.hashKey
     }
     this.socket.emit('closeVideoAll', closeVideoAll)
@@ -681,13 +684,13 @@ class VideoConference extends Component {
             {/* <input type="text" id="room-id" placeholder="abcdef" /> */}
           <div>Current User: {this.props.currentUserStore.username} </div>
           <div> Current Room: { this.props.currentGroupChatStore.currentRoom.roomname } </div>
-          <div> RoomId: {this.props.currentGroupChatStore.RoomId} </div>
+            <div> RoomId: {this.props.currentGroupChatStore.currentRoom.roomID} </div>
             <Button bsStyle="warning" onClick={this.handleOpenVideoConference}>START VIDEO CONFERENCE</Button >
             <Button bsStyle="warning" onClick={this.handleClose}>LEAVE ROOM</Button >
-            {/* <Button bsStyle="warning" onClick={this.handleCloseAll}>CLOSE ALL VIDEOS</Button > */}
+            <Button bsStyle="warning" onClick={this.handleCloseAll}>CLOSE ALL VIDEOS</Button >
           <div>{this.state.showCalling ?
               <div>
-              Calling from: {this.state.callingFrom} 
+              JOIN VIDEO CONFERENCE: {this.state.callingFrom} 
               <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(true)}>JOIN</Button >
               <Button bsStyle="warning" onClick={(e) => this.handleVideoRequest(false)}>DISMISS</Button ></div>
             : null}</div>
