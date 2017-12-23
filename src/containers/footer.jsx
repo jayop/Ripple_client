@@ -14,9 +14,12 @@ class Footer extends Component {
   render() {
     return (
       <div id="footer">
-        <Link to="/jay">Jay</Link>
+        {/* <Link to="/jay">Jay</Link>
         <Link to="/ruslan">Ruslan</Link>
-        <Link to="/yiyang">YiYang</Link>
+        <Link to="/yiyang">YiYang</Link> */}
+        {/* <a href="">JAY</a>
+        <a href="">RUSLAN</a>
+        <a href="">YIYANG</a> */}
       </div>
     )
   }
