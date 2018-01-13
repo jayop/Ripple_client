@@ -19,7 +19,7 @@ font-family: sans-serif;
 }
 #main{
     background-color: rgb(31, 29, 29);
-    background-image: url(http://www.4usky.com/data/out/24/164198335-dark-grey-wallpapers.jpg);
+    background-image: url(./images/background.jpg);
     background-size: auto;
     height: 80vh;
     padding: 10px;
