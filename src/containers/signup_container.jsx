@@ -28,7 +28,9 @@ class Signup extends Component {
       lastname: '',
       quote: '',
       icon: '',
-      all: ''
+      all: '',
+      signupError: false,
+      signupSuccess: false   
     };
   }
 
@@ -63,15 +65,22 @@ class Signup extends Component {
 
   async handleClickSubmit (e) {
     e.preventDefault();
-    console.log('this is redux state before submit ===== ',this.props)
+    // console.log('this is redux state before submit ===== ',this.props)
     let context = this;
     // console.log('state ', this.state)
     await this.props.handleSignup(this.state);
-    console.log('this is redux state after submit ===== ', this.props)
+    // console.log('this is redux state after submit ===== ', this.props)
     firebase.auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .catch((err) => {
+        let message = err.message;
+        this.setState({ signupError: message, signupSuccess: false })
+        throw 'error'
+      })
       .then(function (user) {
-        console.log('successfully registerd new user with firebase id :', user.uid)
+        let message = 'Successfully Registerd with id: ' + user.uid;
+        context.setState({ signupError: false, signupSuccess: message})
+        console.log('Successfully Registerd with id :', user.uid)
       const newUser = {
         username: context.state.username,
         firebase_id: user.uid,
@@ -81,13 +90,13 @@ class Signup extends Component {
         quote: context.state.quote,
         icon: context.state.icon
       }
-      //axios.post('http://www.jayop.com:3000/main/signup', newUser)
       axios.post(`${URL.SERVER_URL}/main/signup`, newUser)
       .then(response => {
-        console.log('sign up response ', response.data)
+        // console.log('sign up response ', response.data)
         context.props.history.push('/login')
       })
     })
+
   }
 
   handleEnter(event) {
@@ -122,6 +131,8 @@ class Signup extends Component {
           <div id="credentials"><label> Password: <br></br><input type="text" name="password" value={this.state.password} onChange={this.handleChange} /></label></div>
           <div id="credentials"><label> Email: <br></br><input type="text" name="email" value={this.state.email} onChange={this.handleChange} /></label></div>
           <span><input type="submit" value="Signup" onClick={this.handleClickSubmit} /></span>
+          {this.state.signupError ? <div style={{ color: 'red' }}>{this.state.signupError}</div> : null}
+          {this.state.signupSuccess ? <div style={{ color: 'blue' }}>{this.state.signupSuccess}</div> : null}
           <div id="credentials"><label> Quick Signup:<br></br> <input type="text" name="all" value={this.state.username} onChange={this.handleChangeDeveloper} onKeyUp={this.handleEnter} /></label></div>
         </FormGroup>
       </div>
