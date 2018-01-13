@@ -54,13 +54,22 @@ font-family: sans-serif;
 }
 
 #setting{
+    text-align: center;
+    padding: 10px;
+    /* border: solid rgb(35, 37, 35); */
+    text-align: center;
+    font-style: italic;
+    color: rgb(166, 194, 176);
+    background-color: rgb(0, 0, 0);
+    height: 100vh;
+}
+
+/* #setting{
     padding: 10px;
     text-align: left;
-    /* border: solid green; */
     color: white;
     width: 33%;
-    /* border: solid blue; */
-}
+} */
 #chat{
     visibility: hidden;
     background-color:	rgb(9, 34, 10);
