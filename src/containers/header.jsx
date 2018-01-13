@@ -192,7 +192,7 @@ class Header extends Component {
       console.log('request got from socket:', request)
 
       if (request.requested === this.props.currentUserStore.username) {
-        alert('you got a friend request from ' + request.requestee)
+        // alert('you got a friend request from ' + request.requestee)
         this.getFriendRequests()
       }
     })
@@ -200,7 +200,7 @@ class Header extends Component {
       console.log('accepted from socket:', accept)
 
       if (accept.requestee === this.props.currentUserStore.username) {
-        alert('you and ' + accept.requested + ' are friends now')
+        // alert('you and ' + accept.requested + ' are friends now')
         this.getFriends()
       }
     })

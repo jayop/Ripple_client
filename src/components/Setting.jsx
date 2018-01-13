@@ -37,7 +37,6 @@ class Setting extends Component {
 
   async handleClickUpdate() {
     console.log(this.currentUserStore)
-    // alert(JSON.stringify(this.state))
     let userObj = {
       username: this.props.currentUserStore.username,
       first: this.state.firstname,
@@ -45,7 +44,6 @@ class Setting extends Component {
       quote: this.state.quote,
       icon: this.state.icon
     }
-    // alert(JSON.stringify(userObj))
     let response = await axios.post(`${URL.LOCAL_SERVER_URL}/main/update`, userObj)
     this.props.browserHistory.history.push('/main')
   }

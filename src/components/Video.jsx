@@ -597,7 +597,7 @@ class Video extends Component {
       console.log('videoRequest got from socket:', videoRequest)
 
       if (videoRequest.requested === this.props.currentUserStore.username) {
-        // alert('you got a video request from ' + videoRequest.requestee)
+        
         this.setState({ showCalling: true, callingFrom: videoRequest.requestee, hashKey: videoRequest.hashKey})
       }
     })
@@ -632,16 +632,12 @@ class Video extends Component {
   }
 
   async handleVideoRequest(result) {
-    // alert(result)
+    
     if (result) {
       await this.connection.open(this.state.hashKey, function () {
         console.log('in connection.open callback')
         showRoomURL(connection.sessionid);
       });
-
-
-      // this.socket.emit('videoReqResult', videoReqResult)
-      // console.log('videoReqResult emitted thru socket', videoReqResult)
 
     }
     let videoReqResult = {

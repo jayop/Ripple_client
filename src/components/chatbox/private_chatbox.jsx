@@ -124,7 +124,7 @@ class PrivateChatBox extends Component {
   // }
 
   handleClickMessage(e) {
-    // alert('you clicked')
+    
   }
 
   render() {

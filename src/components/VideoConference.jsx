@@ -644,7 +644,7 @@ class VideoConference extends Component {
 
 
   async handleVideoRequest(result) {
-    // alert(result)
+    
     if (result) {
       this.connection.join(this.state.hashKey)
     }

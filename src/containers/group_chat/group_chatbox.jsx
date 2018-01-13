@@ -88,7 +88,7 @@ class GroupChatBox extends Component {
 
 
   handleClickMessage(e) {
-    // alert('you clicked')
+    
   }
 
   render() {

@@ -49,14 +49,6 @@ class Main extends Component {
       history: this.props.history
     })
   }
-  // shouldComponentUpdate(nextProps) {
-  //   // alert(this.props.currentFriendsStore.currentFriends.length !== nextProps.currentFriendsStore.currentFriends.length)
-  //   return this.props.currentFriendsStore.currentFriends.length !== nextProps.currentFriendsStore.currentFriends.length;
-  // }
-
-  // componentWillUpdate() {
-
-  // }
 
   componentDidMount() {
     this.setState({ token: localStorage.token })
