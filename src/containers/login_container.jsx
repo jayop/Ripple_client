@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 
 const firebase = require('firebase')
 var provider = new firebase.auth.FacebookAuthProvider();
-//const EndPoint = '/main'
 
 class Login extends Component {
   constructor(props) {
@@ -25,7 +24,8 @@ class Login extends Component {
       email: '',
       submitted: false,
       error: null,
-      showLogin:true    
+      showLogin:true,
+      loginError: false    
     };
   }
 
@@ -48,12 +48,17 @@ class Login extends Component {
   }
 
   async handleClickSubmit (e) {
-    e.preventDefault();
-    //console.log('this is redux state before submit ===== ', this.props);
     let context = this;
+    e.preventDefault();
     firebase.auth()
     .signInWithEmailAndPassword(this.state.email, this.state.password)
+    .catch((err) => {
+      let message = err.message;
+      this.setState({ loginError: message })
+      throw 'error'
+    })
     .then(function(user){
+      context.setState({ loginError: false })
       firebase.auth.Auth.Persistence.LOCAL
 
       const getParameter = async () => {
@@ -61,20 +66,23 @@ class Login extends Component {
           firebase_id: user.uid
         })
         context.props.setCurrentUser(response.data[0])
-        console.log('response.data[0].token', response.data[0].token);
+        // console.log('response.data[0].token', response.data[0].token);
         await localStorage.setItem('username', response.data[0].username);
         await localStorage.setItem('uid', response.data[0].key);
         await localStorage.setItem('token', response.data[0].token.accessToken);
-        console.log('localStorage.token', localStorage.token)
+        // console.log('localStorage.token', localStorage.token)
         //console.log('this is redux state after submit ===== ', context.props)
         context.props.history.push('/main')
       }
       getParameter();
+
       })
-      .catch((error) => {
-          console.log('failed to login thru firebase', error.message)
-          context.props.history.push('/')
-      });
+
+      // .catch((error) => {
+      //     console.log('failed to login thru firebase', error.message)
+      //   this.setState({ loginError: true })
+      //     // context.props.history.push('/')
+      // });
     }
 
   handleEnter(event) {
@@ -116,6 +124,7 @@ class Login extends Component {
               <div className="form-group">
                 <button id="loginbutton" className="btn btn-primary" type="button" onClick={this.handleClickSubmit}>Login</button>
               </div>
+              {this.state.loginError ? <div style={{color: 'red'}}>{this.state.loginError}</div> : null}
               <div id="credentials"><label> Quick Login:<br></br> <input type="text" name="all" value={this.state.username} onChange={this.handleChangeDeveloper} onKeyUp={this.handleEnter}/></label></div> 
           </div>
         </div>
