@@ -702,6 +702,7 @@ class VideoConference extends Component {
         </section>
       </div>  
           <div><GroupChatBox /></div>
+          <div id="dropzone"></div>
         {/* <div id="dropzone"><Dropzone /></div> */}
       </div>
     )

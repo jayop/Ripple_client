@@ -163,28 +163,23 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="main" id="main">
-        {/* <div>current User: {this.props.currentUserStore.username}</div>
-        <div>current ChatView: {this.props.currentChatView.chatview}</div>
-        <div>Session Timeout in:
-          {this.state.tokenTimeLeft > 0 ? ` ${this.state.tokenTimeLeft} sec`: ' session out'}</div>
-        <span><input type="submit" value="Logout" onClick={this.handleLogout} /></span> */}
-        <div><Header history={this.props.history} /></div>
-        {/* <div><UserPanel /></div> */}
-        {/* <div><Lex /></div> */}
-        <div><Roomlist /></div>
-        
-        <div><Friendlist /></div>
-        {this.props.currentChatView.chatview === 0 ?
-          <div innerchat><Chat /></div> : null}
-        {/* {this.props.currentChatView.chatview === 0 ?
+      <div>
+        <div className="header"><Header history={this.props.history} /></div>
+        <div className="main" id="main">
+
+          <div><Roomlist /></div>
+
+          <div><Friendlist /></div>
+          {this.props.currentChatView.chatview === 0 ?
+            <div innerchat><Chat /></div> : null}
+          {/* {this.props.currentChatView.chatview === 0 ?
           <div>No Chat Room Opened</div> : null} */}
-        {this.props.currentChatView.chatview === 1 ? 
-          <div><Private /></div> : null}
-       {this.props.currentChatView.chatview === 2 ?
-          <div><Group /></div> : null}
-        <div><Footer /></div>
-       
+          {this.props.currentChatView.chatview === 1 ?
+            <div><Private /></div> : null}
+          {this.props.currentChatView.chatview === 2 ?
+            <div><Group /></div> : null}
+        </div>
+        <div className="footer"><Footer /></div>
       </div>
     )
   }
