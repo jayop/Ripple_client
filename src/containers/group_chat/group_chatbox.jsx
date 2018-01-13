@@ -97,7 +97,7 @@ class GroupChatBox extends Component {
     return (
 
       <div id="group_chat">
-        <div><h2>Group Chat</h2></div>
+        <div><h2>{context.props.currentGroupChatStore.currentRoom.roomname}</h2></div>
         {/* <button id="videoChatButton" onClick={this.handleVideoChat}>Video Chat</button> */}
         {/* <div id="videoChatButton">
           <Link to="/video"><h2>VideoChat</h2></Link>

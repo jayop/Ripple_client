@@ -192,36 +192,21 @@ Button:active{
 #group_chat{
    /* width: 90%; */
     margin: 10px;
-    height: 500px;
+    height: 460px;
     text-align: left;
     overflow-y: scroll;
     padding: 15px;
 }
 #private_chat{
     margin: 10px;
-    height: 500px;
+    height: 460px;
     text-align: left;
     overflow-y: scroll;
     padding: 15px;
     }
 #Group_chat{
-    padding-right: 20px;
-    margin: 10px;
-    /* border: solid blue; */
-    float: right;
-    width: 45%;
-    height: 500px;
-    background:  rgb(29, 29, 29);
-    background-color: black;
-    opacity: 0.75;
-    border-radius:20px;
-    /* border: solid rgb(46, 19, 177); */
-    text-align: center;
-    overflow-y: scroll;
-}
-#private_chatt{
     padding: 15px;
-    margin: 10px;
+    margin: 10px 25px 10px 5px;
     background-color:  rgb(29, 29, 29);
     background-color: black;
     opacity: 0.75;
@@ -230,7 +215,19 @@ Button:active{
     float: right;
     width: 45%;
     height: 45%;
-    /* overflow-y: scroll; */
+    text-align: left;
+}
+#private_chatt{
+    padding: 15px;
+    margin: 10px 25px 10px 5px;
+    background-color:  rgb(29, 29, 29);
+    background-color: black;
+    opacity: 0.75;
+    border-radius:20px;
+    /* border: solid rgb(59, 21, 198); */
+    float: right;
+    width: 45%;
+    height: 45%;
     text-align: left;
 }
 #innerfooter{

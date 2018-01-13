@@ -133,7 +133,7 @@ class PrivateChatBox extends Component {
     return (
 
       <div id="private_chat">
-        {/* <div><h2>Private Chat</h2></div> */}
+        <div><h2>{context.props.currentChatStore.currentFriend}</h2></div>
         {/* <button id="videoChatButton" onClick={this.handleVideoChat}>Video Chat</button> */}
         {/* <div id="videoChatButton">
           <Link to="/video"><h2>VideoChat</h2></Link>
