@@ -77,12 +77,6 @@ class Login extends Component {
       getParameter();
 
       })
-
-      // .catch((error) => {
-      //     console.log('failed to login thru firebase', error.message)
-      //   this.setState({ loginError: true })
-      //     // context.props.history.push('/')
-      // });
     }
 
   handleEnter(event) {
