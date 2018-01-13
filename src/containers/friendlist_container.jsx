@@ -84,7 +84,7 @@ class Friendlist extends Component {
         }
         this.socket.emit('request', socketFriendRequest)
 
-        alert('friend request sent ' + requestResponse.data.alert)
+        alert('friend request sent ')
       }
     }
   }
